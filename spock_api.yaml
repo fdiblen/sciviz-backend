@@ -74,6 +74,8 @@ paths:
         404:
           description: User does not exist
 
+
+
   /datasets:
     get:
       tags: [Datasets]
@@ -139,8 +141,23 @@ paths:
           description: Dataset does not exist
 
 
-
-
+  /datasets/upload:
+    post:
+      tags: [Datasets]
+      operationId: app.post_upload    
+      summary: Uploads a data.
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: upfile
+          type: file
+          description: The file to upload.
+      responses:
+        202:
+          description: Dataset was uploaded.
+        404:
+          description: Dataset upload failed.
 
 
 parameters:

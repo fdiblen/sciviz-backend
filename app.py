@@ -8,6 +8,9 @@ from connexion import NoContent
 
 import orm
 
+import pandas as pd
+
+
 db_session = None
 
 
@@ -85,6 +88,23 @@ def delete_dataset(dataset_id):
         return NoContent, 204
     else:
         return NoContent, 404
+
+
+def post_upload(upfile):
+    # dataset = db_session.query(orm.Dataset).filter(orm.Dataset.id == dataset_id).one_or_none()
+    print(upfile)
+    dataset = pd.read_csv(upfile)
+    print(dataset.head(10))
+    print(dataset.describe())    
+    # dataset_id = XXX
+    if dataset is not None:
+        # # logging.info('Uploading a dataset %s..', dataset_id)
+        # db_session.add(orm.Dataset(**dataset))
+        # db_session.commit()
+        return NoContent, 202
+    else:
+        return NoContent, 404
+
 
 
 

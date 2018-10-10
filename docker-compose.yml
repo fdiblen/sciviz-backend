@@ -12,8 +12,19 @@ services:
       POSTGRES_DB: spock
       POSTGRES_USER: spock
       POSTGRES_PASSWORD: spock
-      # PGDATA:
+      # PGDATA: '/pgdata'
       # POSTGRES_INITDB_ARGS:
       # POSTGRES_INITDB_WALDIR:
     ports:
       - 5432:5432
+    # command: postgres -c 'shared_buffers=1024MB' -c 'max_connections=200'
+    # -c 'shared_buffer='
+    # -c 'effective_cache_size='
+    # -c 'work_mem='
+    command: postgres -c 'config_file=/pgconfig/postgresql.conf'
+    volumes:
+      # - './postgres.conf:/etc/postgresql/postgresql.conf'
+      - ./postgres.conf:/pgconfig/postgresql.conf
+      # - pgdata:/pgdata
+# volumes:
+#   pgdata:

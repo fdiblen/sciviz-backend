@@ -1,4 +1,5 @@
-# Spock project
+Spock project
+==================
 
 # Useful Tools
 - Postman for api check
@@ -6,13 +7,22 @@
 
 # How to start
 1) Start the docker image
-2) Start the backend
+2) Install dependencies
+3) Start the backend
 
 
 # Start the PostreSQL server
 ```
 docker-compose up --force-recreate
 ```
+
+# install Python dependencies
+
+    $ sudo pip3 install -r requirements.txt
+    $ ./app.py
+
+Now open your browser and go to http://localhost:5000/ui/ to see the API UI.
+
 
 # Stop the PostreSQL server
 ```

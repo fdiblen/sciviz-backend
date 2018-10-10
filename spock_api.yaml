@@ -1,0 +1,222 @@
+swagger: '2.0'
+info:
+  title: Spock API
+  version: "0.1"
+consumes:
+  - application/json
+produces:
+  - application/json
+
+
+paths:
+
+  /users:
+    get:
+      tags: [Users]
+      operationId: app.get_users
+      summary: Get all users
+      parameters:
+        - name: user_type
+          in: query
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+        - name: limit
+          in: query
+          type: integer
+          minimum: 0
+          default: 100
+      responses:
+        200:
+          description: Return users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+
+  /users/{user_id}:
+    get:
+      tags: [Users]
+      operationId: app.get_user
+      summary: Get a single user
+      parameters:
+        - $ref: '#/parameters/user_id'
+      responses:
+        200:
+          description: Return user
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: User does not exist
+    put:
+      tags: [Users]
+      operationId: app.put_user
+      summary: Create or update a user
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: User updated
+        201:
+          description: New user created
+    delete:
+      tags: [Users]
+      operationId: app.delete_user
+      summary: Remove a user
+      parameters:
+        - $ref: '#/parameters/user_id'
+      responses:
+        204:
+          description: User was deleted
+        404:
+          description: User does not exist
+
+  /datasets:
+    get:
+      tags: [Datasets]
+      operationId: app.get_datasets
+      summary: Get all datasets
+      parameters:
+        - name: dataset_type
+          in: query
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+        - name: limit
+          in: query
+          type: integer
+          minimum: 0
+          default: 100
+      responses:
+        200:
+          description: Return datasets
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
+
+  /datasets/{dataset_id}:
+    get:
+      tags: [Datasets]
+      operationId: app.get_dataset
+      summary: Get a single dataset
+      parameters:
+        - $ref: '#/parameters/dataset_id'
+      responses:
+        200:
+          description: Return dataset
+          schema:
+            $ref: '#/definitions/Dataset'
+        404:
+          description: Dataset does not exist
+    put:
+      tags: [Datasets]
+      operationId: app.put_dataset
+      summary: Create or update a dataset
+      parameters:
+        - $ref: '#/parameters/dataset_id'
+        - name: dataset
+          in: body
+          schema:
+            $ref: '#/definitions/Dataset'
+      responses:
+        200:
+          description: Dataset updated
+        201:
+          description: New dataset created
+    delete:
+      tags: [Datasets]
+      operationId: app.delete_dataset
+      summary: Remove a dataset
+      parameters:
+        - $ref: '#/parameters/dataset_id'
+      responses:
+        204:
+          description: Dataset was deleted
+        404:
+          description: Dataset does not exist
+
+
+
+
+
+
+parameters:
+  user_id:
+    name: user_id
+    description: User's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+
+  dataset_id:
+    name: dataset_id
+    description: Dataset's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+
+
+
+definitions:
+  User:
+    type: object
+    required:
+      - name
+      - user_type
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        example: "314"
+        readOnly: true
+      name:
+        type: string
+        description: User's name
+        example: "Spock"
+        minLength: 3
+        maxLength: 100
+      user_type:
+        type: string
+        description: Type of user
+        example: "admin"
+        minLength: 1
+      created:
+        type: string
+        format: date-time
+        description: Creation time
+        example: "2018-10-10T18:26:16.234271Z"
+        readOnly: true
+
+  Dataset:
+    type: object
+    required:
+      - name
+      - dataset_type
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        example: "314"
+        readOnly: true
+      name:
+        type: string
+        description: Dataset's name
+        example: "Higgs boson 4-jets analysis"
+        minLength: 3
+        maxLength: 100
+      dataset_type:
+        type: string
+        description: Type of dataset
+        example: "experimental"
+        minLength: 1
+      created:
+        type: string
+        format: date-time
+        description: Creation time
+        example: "2018-10-10T18:26:16.234271Z"
+        readOnly: true

@@ -1,5 +1,6 @@
 # Use postgres/example user/password credentials
 # https://hub.docker.com/_/postgres/
+
 version: '3.1'
 
 services:
@@ -16,10 +17,3 @@ services:
       # POSTGRES_INITDB_WALDIR:
     ports:
       - 5432:5432
-    # ports: ["5555:5432"]
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080

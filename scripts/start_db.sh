@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # start the database server
-docker-compose up
+docker-compose up --force-recreate

@@ -1,3 +1,4 @@
-connexion>=1.0.97
-Flask>=0.10.1
-SQLAlchemy>=1.0.13
+connexion>=1.5.3
+SQLAlchemy>=1.2.12
+Flask>=1.0.2
+Flask-SQLAlchemy>=2.3.2

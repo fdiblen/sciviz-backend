@@ -3,6 +3,8 @@
 import datetime
 import logging
 
+from os.path import splitext
+
 import connexion
 from connexion import NoContent
 
@@ -92,10 +94,32 @@ def delete_dataset(dataset_id):
 
 def post_upload(upfile):
     # dataset = db_session.query(orm.Dataset).filter(orm.Dataset.id == dataset_id).one_or_none()
-    print(upfile)
-    dataset = pd.read_csv(upfile)
+
+    # print(upfile)
+    # print(upfile.stream)
+    print(upfile.filename)
+    # print(upfile.name)
+    # print(upfile.headers)
+    # print(upfile.content_length)
+    # print(upfile.content_type)
+    # print(upfile.mimetype)
+
+    file_name, extension = splitext(upfile.filename)
+    # print('filename: ', file_name)
+    # print('extension: ', extension)
+
+    if extension == '.csv': dataset = pd.read_csv(upfile)
+    if extension == '.json': dataset = pd.read_json(upfile)
+    if extension == '.xls' or extension == '.xlsx' : dataset = pd.read_excel(upfile)
+
+    print(dataset.describe())
     print(dataset.head(10))
-    print(dataset.describe())    
+
+    # https://pandas.pydata.org/pandas-docs/stable/io.html
+
+    # binary	HDF5 Format	read_hdf	to_hdf
+    # binary	Python Pickle Format	read_pickle	to_pickle
+
     # dataset_id = XXX
     if dataset is not None:
         # # logging.info('Uploading a dataset %s..', dataset_id)

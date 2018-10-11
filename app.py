@@ -112,6 +112,21 @@ def post_upload(upfile):
 
     dataset_id = db_session.query(orm.Dataset).count()
 
+    # print(db_session)
+    from orm import Base
+    # print(Base)
+
+    # [print(method_name) for method_name in dir(db_session)
+    # if callable(getattr(db_session, method_name))]
+
+    # Base.metadata.tables["test"].create(bind = db_session.get_bind())
+    # Model.__table__.create(db.session.bind, checkfirst=True)
+
+    # db_session.execute('CREATE TABLE ' + file_name + ';')
+
+
+    dataset.to_sql(file_name, db_engine)
+
     if dataset is not None:
         # # logging.info('Uploading a dataset %s..', dataset_id)
         # db_session.add(orm.Dataset(**dataset))
@@ -125,7 +140,7 @@ def post_upload(upfile):
 
 logging.basicConfig(level=logging.INFO)
 # db_session = orm.init_db('sqlite:///:memory:')
-db_session = orm.init_db('postgresql://spock:spock@localhost:5432/spock')
+db_session, db_engine = orm.init_db('postgresql://spock:spock@localhost:5432/spock')
 
 app = connexion.FlaskApp(__name__)
 app.add_api('spock_api.yaml')

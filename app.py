@@ -93,8 +93,6 @@ def delete_dataset(dataset_id):
 
 
 def post_upload(upfile):
-    # dataset = db_session.query(orm.Dataset).filter(orm.Dataset.id == dataset_id).one_or_none()
-
     # print(upfile)
     print(upfile.filename)
 
@@ -108,33 +106,17 @@ def post_upload(upfile):
     if extension == '.pkl': dataset = pd.read_pickle(upfile)
 
     print(dataset.describe())
-    print(dataset.head(5))
+    # print(dataset.head(5))
 
     dataset_id = db_session.query(orm.Dataset).count()
 
-    # print(db_session)
-    from orm import Base
-    # print(Base)
-
-    # [print(method_name) for method_name in dir(db_session)
-    # if callable(getattr(db_session, method_name))]
-
-    # Base.metadata.tables["test"].create(bind = db_session.get_bind())
-    # Model.__table__.create(db.session.bind, checkfirst=True)
-
-    # db_session.execute('CREATE TABLE ' + file_name + ';')
-
-
-    dataset.to_sql(file_name, db_engine)
-
     if dataset is not None:
-        # # logging.info('Uploading a dataset %s..', dataset_id)
-        # db_session.add(orm.Dataset(**dataset))
-        # db_session.commit()
+        logging.info('Uploading a dataset %s:...', file_name)
+        dataset.to_sql(file_name, db_engine)
+        db_session.commit()
         return NoContent, 202
     else:
         return NoContent, 404
-
 
 
 

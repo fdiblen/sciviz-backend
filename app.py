@@ -4,6 +4,7 @@ import datetime
 import logging
 
 from os.path import splitext
+import sys
 
 import connexion
 from connexion import NoContent
@@ -119,13 +120,33 @@ def post_upload(upfile):
         return NoContent, 404
 
 
+def get_download_dataset(dataset_id):
+    # dataset = db_session.query(orm.Dataset).filter(orm.Dataset.id == dataset_id).one_or_none()
+    # data = db_session.query(dataset).one_or_none()
+    from orm import Base
+    data = db_session.query(Base.metadata.tables['sil_data']).all()
+    print(data)
+    return data.dump() if data is not None else ('Not found', 404)
+
+
+
 
 logging.basicConfig(level=logging.INFO)
-# db_session = orm.init_db('sqlite:///:memory:')
-db_session, db_engine = orm.init_db('postgresql://spock:spock@localhost:5432/spock')
 
 app = connexion.FlaskApp(__name__)
+#app.run_mode = 'Server' # that will only change the database type
+app.run_mode = 'Client'
 app.add_api('spock_api.yaml')
+
+
+if app.run_mode == 'Client':
+    db_session, db_engine = orm.init_db('sqlite:///:memory:')
+elif app.run_mode == 'Server':
+    db_session, db_engine = orm.init_db('postgresql://spock:spock@localhost:5432/spock')
+else:
+    print('Unknow run mode! Exiting.')
+    sys.exit(-1)
+logging.info('Run mode: %s', app.run_mode)
 
 application = app.app
 

@@ -159,6 +159,21 @@ paths:
         404:
           description: Dataset upload failed.
 
+  /datasets/download/{dataset_id}:
+    get:
+      tags: [Datasets]
+      operationId: app.get_download_dataset
+      summary: Download a dataset.
+      parameters:
+        - $ref: '#/parameters/dataset_id'
+      responses:
+        200:
+          description: Return dataset
+          schema:
+            $ref: '#/definitions/Dataset'
+        404:
+          description: Dataset does not exist
+
 
 parameters:
   user_id:

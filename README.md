@@ -1,9 +1,7 @@
-Spock project
+sciviz-frontend
 ==================
-
-# Useful Tools
-- Postman for api check
-
+Backend for sciviz
+https://github.com/fdiblen/sciviz-frontend
 
 # How to start
 1) Start the docker image
